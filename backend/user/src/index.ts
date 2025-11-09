@@ -4,6 +4,7 @@ import connectDb from './config/db.js';
 import { createClient } from 'redis';
 import userRoutes from './routes/user.js';
 import { connectRabbitMQ } from './config/rabbitms.js';
+import cors from 'cors';
 
 dotenv.config();
 connectDb();
@@ -23,10 +24,16 @@ redisClient.connect()
 const app = express();
 app.use(express.json());
 
-app.use("api/v1", userRoutes)
+app.use(cors({
+    origin: "*"
+}))
+
+app.use("/api/v1", userRoutes)
 
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 })
+
+// 2:04 mins
