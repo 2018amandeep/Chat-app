@@ -14,10 +14,41 @@ export const startSendOtpConsumer = async ()=>{
             password: process.env.Rabbitmq_Password
         });
 
-        const channel = connection.createChannel();
+        const channel = await connection.createChannel();
+        const queueName = "send-otp";
+        await channel.assertQueue(queueName, { durable: true });
+        console.log("Connected to Rabbit MQ in mail-service");
+
+        await channel.consume(queueName, async(msg:any)=>{
+            try{
+                const { to, subject, body}= JSON.parse(msg?.content.toString());
+
+                const transporter = nodemailer.createTransport({
+                    host: 'smtp.gmail.com',
+                    port:465, 
+                    auth: {
+                        user: process.env.EMAIL_USER,
+                        pass: process.env.EMAIL_PASSWORD
+                    }   
+                });
+
+                await transporter.sendMail({
+                    from: 'Chat-app',
+                    to: to,
+                    subject: subject,
+                    text: body
+                });
+
+                console.log("Email sent successfully to:", to);
+                channel.ack(msg)
+            }catch(err){
+                console.log(err, "Failed to send OTP");
+            }
+        })
     }
     catch(err){
         console.log(err, "Error in consumer");
+        throw err;
     }
 }
 

@@ -20,7 +20,7 @@ export const connectRabbitMQ = async () => {
     }
 }
 
-export const publishToQueue = async (queueName: string, message: string) => {
+export const publishToQueue = async (queueName: string, message: any) => {
     if (!channel) {
         throw new Error("Channel not initialized");
     }
