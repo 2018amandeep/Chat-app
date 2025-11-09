@@ -20,3 +20,16 @@ export const startSendOtpConsumer = async ()=>{
         console.log(err, "Error in consumer");
     }
 }
+
+
+
+/*
+list all images - docker images -a
+list all containers - docker ps -a
+remove all images - docker rmi $(docker images -a -q)
+remove all containers - docker rm $(docker ps -a -q)
+remove all images and containers - docker system prune -a
+remove one image - docker rmi <image-id>
+remove one container - docker rm <container-id>
+remove all images and containers - docker system prune -a -f
+*/
