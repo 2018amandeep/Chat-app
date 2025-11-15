@@ -115,6 +115,7 @@ export const getAllUser = tryCatch(async (req: AuthenticatedRequest, res) => {
 export const getAUser = tryCatch(async (req: AuthenticatedRequest, res) => {
     const { id } = req.params;
     const user = await User.findById(id);
+    console.log(user, "user")
     res.status(200).json({
         user
     })

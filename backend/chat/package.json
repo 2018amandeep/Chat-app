@@ -4,10 +4,31 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc",
+    "start": "nodemon node dist/index.js",
+    "dev": "concurrently \"tsc -w\" \"nodemon --delay 2 dist/index.js\""
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "commonjs"
+  "type": "module",
+  "dependencies": {
+    "@types/multer": "^2.0.0",
+    "axios": "^1.13.2",
+    "cloudinary": "^1.41.3",
+    "concurrently": "^9.2.1",
+    "express": "^5.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "multer": "^2.0.2",
+    "multer-storage-cloudinary": "^4.0.0",
+    "nodemon": "^3.1.11"
+  },
+  "devDependencies": {
+    "@types/axios": "^0.9.36",
+    "@types/express": "^5.0.5",
+    "@types/jsonwebtoken": "^9.0.10",
+    "dotenv": "^17.2.3",
+    "mongoose": "^8.19.3"
+  }
 }
