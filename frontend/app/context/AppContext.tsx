@@ -83,6 +83,7 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
     }
 
     const [chats, setChats] = useState<Chats[] | null>(null);
+
     async function fetchChats() {
         const token = Cookies.get('token')
         try {
@@ -98,9 +99,28 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
         }
     }
 
+    // Fetch all the users to be shown on left menu
+    const [users, setUsers] = useState<User[] | null>(null);
+    async function fetchUsers() {
+        const token = Cookies.get('token');
+
+        try {
+            const { data } = await axios.get(`${user_service}/api/v1/user/all`, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+
+            setUser(data)
+        } catch (err) {
+            console.log(err)
+        }
+    }
+
     useEffect(() => {
         fetchUser();
         fetchChats();
+        fetchUsers();
     }, [])
     return (
         <AppContext.Provider value={{ user, setUser, isAuth, setIsAuth, loading }}>
