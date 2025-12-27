@@ -42,7 +42,7 @@ const ChatApp = () => {
      * User from whome user is chatting
      */
     const [user, setUser] = useState<User | null>(null);
-    const [showAllUsers, serShowAllUsers] = useState(false);
+    const [showAllUsers, setShowAllUsers] = useState(false);
     const [isTyping, setIsTyping] = useState(false);
     const [typingTimeOut, setTypingTimeOut] = useState<NodeJS.Timeout | null>(null)
 
@@ -53,10 +53,15 @@ const ChatApp = () => {
         }
     }, [loading, isAuth, router]);
 
+    const handleLogout = () => logoutUser();
+
     if (loading) return <Loading />
     return (
         <div className='min-h-screen flex bg-gray-900 text-white relative overflow-hidden'>
-            <ChatSidebar />
+            <ChatSidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen}
+            showAllUsers={showAllUsers} setShowAllUsers={setShowAllUsers} users={users} 
+            loggedInUser={loggedInUser} chats={chats} selectedUser={selectedUser} setSelectedUser={setSelectedUser} handleLogout={handleLogout} 
+            />
         </div>
     )
 
