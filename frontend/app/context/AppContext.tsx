@@ -39,6 +39,12 @@ export interface AppContextType {
     isAuth: boolean;
     setUser: React.Dispatch<React.SetStateAction<User | null>>;
     setIsAuth: React.Dispatch<React.SetStateAction<boolean>>;
+    logoutUser: ()=> Promise<void>;
+    fetchUsers: () => Promise<void>;
+    fetchChats: ()=> Promise<void>;
+    chats: Chats[] | null;
+    users: User[] | null;
+    setChats:React.Dispatch<React.SetStateAction<Chats[] | null>>    
 }
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
@@ -75,7 +81,7 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
         }
     }
 
-    async function logout() {
+    async function logoutUser() {
         Cookies.remove('token');
         setIsAuth(false);
         setUser(null);
@@ -123,7 +129,10 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
         fetchUsers();
     }, [])
     return (
-        <AppContext.Provider value={{ user, setUser, isAuth, setIsAuth, loading }}>
+        <AppContext.Provider value={{ user, setUser, isAuth, setIsAuth, loading,
+            logoutUser, fetchChats, fetchUsers,
+            chats, users, setChats
+         }}>
             {children}
             <Toaster />
         </AppContext.Provider>
