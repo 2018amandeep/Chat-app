@@ -21,7 +21,8 @@ export const startSendOtpConsumer = async ()=>{
 
         await channel.consume(queueName, async(msg:any)=>{
             try{
-                const { to, subject, body}= JSON.parse(msg?.content.toString());
+                console.log(msg.content.toString(),"message content")
+                const { to, subject, text}= JSON.parse(msg?.content.toString());
 
                 const transporter = nodemailer.createTransport({
                     host: 'smtp.gmail.com',
@@ -36,7 +37,7 @@ export const startSendOtpConsumer = async ()=>{
                     from: 'Chat-app',
                     to: to,
                     subject: subject,
-                    text: body
+                    text: text.toString()
                 });
 
                 console.log("Email sent successfully to:", to);
