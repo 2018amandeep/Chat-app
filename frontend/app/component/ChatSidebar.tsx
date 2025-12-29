@@ -14,18 +14,18 @@ interface ChatSidebarProps {
     setSelectedUser: (userId: string | null) => void;
     selectedUser: string | null;
     handleLogout: () => void;
+    createChat: (user: User) => void;
 }
 
 const ChatSidebar = ({ sidebarOpen, setSidebarOpen, showAllUsers, setShowAllUsers,
-    chats, selectedUser, setSelectedUser, handleLogout, users, loggedInUser
+    chats, selectedUser, setSelectedUser, handleLogout, users, loggedInUser, createChat
 }: ChatSidebarProps) => {
-    console.log(chats, "chats")
     const [searchQuery, setSearchQuery] = useState("");
     return (
         <div>
             <aside className={`fixed z-20 sm:static top-0 left-0 h-screen w-80 bg-gray-900 
             border-r border-gray-700 transform ${sidebarOpen ? "translate-x-0" : "-translate-x-full"
-                } sm:translate-x-0 transition-transform duration-300 flex flex-col`}>
+                } sm:translate-x-0 transition-transform duration-300 flex flex-col pointer-events-auto`}>
                 {/*header*/}
                 <div className="p-6 border-b border-gray-700">
                     <div className="sm:hidden flex justify-end mb-0">
@@ -59,7 +59,7 @@ const ChatSidebar = ({ sidebarOpen, setSidebarOpen, showAllUsers, setShowAllUser
                 </div>
 
                 {/*content*/}
-                <div className="flex-1 overflow-hidden px-4 py-2">
+                <div className="flex-1 overflow-y-auto px-4 py-2">
                     {
                         showAllUsers ? <div className="space-y-4 h-full">
                             <div className="relative">
@@ -75,29 +75,31 @@ const ChatSidebar = ({ sidebarOpen, setSidebarOpen, showAllUsers, setShowAllUser
                             <div className="space-y-2 overflow-y-auto h-full pb-4">
                                 {
                                     users?.filter((u) => u._id !== loggedInUser?._id
-                                        && u.name.toLowerCase().includes(searchQuery.toLowerCase())).map(
-                                            (u) => (
-                                                <button key={u._id} className="w-full text-left p-4
-                                        rounded-lg border border-gray-700 hover:border-gray-600
-                                        hover:bg-gray-800 transition-colors">
-                                                    <div className="flex item-center gap-3">
-                                                        <div className="relative">
-                                                            <UserCircle className="w-6 h-6 text-gray-300" />
-                                                        </div>
-                                                        {/*Show Online symbol*/}
-                                                        <div className="flex-1 min-w-0">
-                                                            <span className="font-medium text-white">{u.name}</span>
-                                                            <div className="text-xs text-gray-400 mt-0.5">
-                                                                {/* To show online and offline text*/}
-
-                                                            </div>
+                                        && u.name?.toLowerCase().includes(searchQuery?.toLowerCase() || ""))
+                                        .map((u) => (
+                                            <button key={u._id} className="w-full text-left p-4 
+                                                rounded-lg border border-gray-700 hover:border-gray-600
+                                                hover:bg-gray-800 transition-colors"
+                                                onClick={() => {
+                                                    console.log("clicked")
+                                                    createChat(u)}  
+                                                }
+                                            >
+                                                <div className="flex items-center gap-3">
+                                                    <div className="relative">
+                                                        <UserCircle className="w-6 h-6 text-gray-300" />
+                                                    </div>
+                                                    {/*Show Online symbol*/}
+                                                    <div className="flex-1 min-w-0">
+                                                        <span className="font-medium text-white">{u.name}</span>
+                                                        <div className="text-xs text-gray-400 mt-0.5">
+                                                            {/* To show online and offline text*/}
                                                         </div>
                                                     </div>
-
-                                                </button>
-                                            )
+                                                </div>
+                                            </button>
                                         )
-
+                                        )
                                 }
                             </div>
                         </div>
