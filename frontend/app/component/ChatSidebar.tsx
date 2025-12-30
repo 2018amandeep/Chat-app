@@ -113,7 +113,7 @@ const ChatSidebar = ({ sidebarOpen, setSidebarOpen, showAllUsers, setShowAllUser
                                             const unseenCount = chat.chat.unSeenCount || 0;
 
                                             return <button key={chat.chat._id} onClick={() => {
-                                                setSelectedUser(chat.chat_id);
+                                                setSelectedUser(chat.chat._id);
                                                 setSidebarOpen(false);
                                             }}
                                                 className={`w-full text-left p-4 rounded-lg transition-colors 

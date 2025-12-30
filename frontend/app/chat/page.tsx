@@ -7,6 +7,7 @@ import ChatSidebar from '../component/ChatSidebar';
 import toast from 'react-hot-toast';
 import Cookies from 'js-cookie';
 import axios from 'axios';
+import ChatHeader from '../component/ChatHeader';
 
 
 export interface Message {
@@ -66,8 +67,10 @@ const ChatApp = () => {
                     Authorization:`Bearer ${token}`
                 }
             });
+
+            console.log(data,"data line 71")
             setMessages(data.messages);
-            setUser(data.user);
+            setUser(data.user.user);
             await fetchChats();
         }catch(error){
             console.log(error);
@@ -120,7 +123,7 @@ const ChatApp = () => {
 
             {/*New module starts*/}
             <div className='flex-1 flex flex-col justify-between p-4 backdrop-blur-xl bg-white/5 border-1 border-white/10'>
-                 
+                 <ChatHeader user={user} setSidebarOpen={setSidebarOpen} isTyping={isTyping} />
             </div>
         </div>
     )
